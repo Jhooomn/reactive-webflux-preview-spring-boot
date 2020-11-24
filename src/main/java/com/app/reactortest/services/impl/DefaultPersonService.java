@@ -26,7 +26,10 @@ public class DefaultPersonService implements PersonService {
   @Override
   public Flux<PersonDTO> listPerson() {
     Flux<Person> personFlux = personRepository.findAll();
-    return personFlux.map(AssemblerPerson::toDto).delayElements(Duration.ofMillis(150));
+    return personFlux
+        .map(AssemblerPerson::toDto)
+        .delayElements(Duration.ofMillis(150))
+        .limitRequest(10);
   }
 
   public void importData() {
